@@ -52,21 +52,21 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(pseudo.getText().toString().isEmpty()||password.getText().toString().isEmpty()){
-                    Toast.makeText(getActivity(), "please insert both name and password", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "please insert both name and password", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Intent intent = new Intent(getActivity(),MenuActivity.class);
                     User user = new User(pseudo.getText().toString(), password.getText().toString());
                     //ici faut check si il est dans la db
                     //si oui et que match avec le password, alors avancer
                     //sinon donner une erreur
                     if(userDB.checkIfUserMatchs(user)==true){
+                        Intent intent = new Intent(getActivity(),MenuActivity.class);
                         intent.putExtra("user", user);
-                        Toast.makeText(getActivity(), "In db, switching activity", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "In db, switching activity", Toast.LENGTH_SHORT).show();
                         startActivity(intent);
                     }
                     else{
-                        Toast.makeText(getActivity(), "Not in database, please create an account", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Not in database, please create an account", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

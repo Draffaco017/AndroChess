@@ -14,7 +14,7 @@ public class UserDB {
     private static final int NUM_COL_PSWD = 0;
     private static final String COL_NAME = "NAME";
     private static final int NUM_COL_NAME = 1;
-    private static final String COl_WIN ="WIN";
+    private static final String COL_WIN ="WIN";
     private static final int NUM_COL_WIN = 2;
     private static final String COL_TOTGAMES = "TOTGAMES";
     private static final int NUM_COL_TOTGAMES = 3;
@@ -36,8 +36,6 @@ public class UserDB {
     private static final int NUM_COL_UNIT8 = 11;
     private static final String COL_UNIT9 = "UNIT9";
     private static final int NUM_COL_UNIT9 = 12;
-    private static final String COL_UNIT10 = "UNIT10";
-    private static final int NUM_COL_UNIT10 = 13;
 
 
     private SQLiteDatabase db;
@@ -61,8 +59,9 @@ public class UserDB {
         return db;
     }
 
-    public long insertUser(User user){
-        ContentValues content=new ContentValues();
+    public void insertUser(User user){
+        //old version, not working as intended
+        /*ContentValues content=new ContentValues();
         content.put(COL_NAME, user.getName());
         content.put(COl_WIN, user.getNbrGamesWon());
         content.put(COL_TOTGAMES, user.getNbrGamesPlayed());
@@ -72,12 +71,24 @@ public class UserDB {
             content.put(temp, temp2);
         }
         content.put(COL_PSWD, user.getPassword());
-        return db.insert(TABLE_USERS, null, content);
+        return db.insert(TABLE_USERS, null, content);*/
+        openForWrite();
+        db.execSQL("INSERT INTO "+TABLE_USERS+" ("+COL_PSWD+", "+
+                COL_NAME+", "+COL_WIN+", "+COL_TOTGAMES+", "+
+                COL_UNIT1+", "+COL_UNIT2+", "+COL_UNIT3+", "+
+                COL_UNIT4+", "+COL_UNIT5+", "+COL_UNIT6+", "+
+                COL_UNIT7+", "+COL_UNIT8+", "+COL_UNIT9+") VALUES ('"+
+                user.getName()+"', '"+user.getPassword()+"', '"+
+                user.getNbrGamesWon()+"', '"+user.getNbrGamesPlayed()+
+                "', 'Aircraft Damage', 'Aircraft Tank', 'Aircraft Speed', "+
+                "'Shooter Damage', 'Shooter Tank', 'Shooter Speed', "+
+                "'Melee Damage', 'Melee Tank', 'Melee Speed');");
+        close();
     }
-    public int updateUser(String name, User user){
-        ContentValues content = new ContentValues();
+    public void updateUser(String name, User user){
+        /*ContentValues content = new ContentValues();
         content.put(COL_NAME, user.getName());
-        content.put(COl_WIN, user.getNbrGamesWon());
+        content.put(COL_WIN, user.getNbrGamesWon());
         content.put(COL_TOTGAMES, user.getNbrGamesPlayed());
         for(int i=1;i<11;i++){
             String temp="COL_UNIT"+i;
@@ -85,15 +96,18 @@ public class UserDB {
             content.put(temp, temp2);
         }
         content.put(COL_PSWD, user.getPassword());
-        return db.update(TABLE_USERS, content, COL_NAME + " = "+name, null);
+        db.update(TABLE_USERS, content, COL_NAME + " = "+name, null);*/
+        //a implémenter par après
     }
     public boolean checkIfUserMatchs(User user){
-        openForWrite();
+        openForRead();
         Cursor cursor=db.rawQuery("SELECT "+COL_NAME+", "+COL_PSWD+" FROM "+TABLE_USERS+" WHERE "+COL_NAME+"='"+user.getName()+"' AND "+COL_PSWD+"='"+user.getPassword()+"';", null);
         if(cursor.getCount()>0){
+            close();
             return true;
         }
         else{
+            close();
             return false;
         }
     }
@@ -101,18 +115,17 @@ public class UserDB {
         openForRead();
         Cursor cursor=db.rawQuery("SELECT "+COL_NAME+" FROM "+TABLE_USERS+" WHERE "+COL_NAME+"='"+user.getName()+"';", null);
         if(cursor.getCount()>0){
+            close();
             return true;
         }
         else{
+            close();
             return false;
         }
     }
-    public int removeUser(String name){return db.delete(TABLE_USERS, COL_NAME+" = "+name, null);}
+    //public int removeUser(String name){return db.delete(TABLE_USERS, COL_NAME+" = "+name, null);}
 
-    public User selectUser(String name){
+    /*public User selectUser(String name){
         return null;
-    }
-    public boolean checkLoginPswd(){
-        return true;
-    }
+    }*/
 }

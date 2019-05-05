@@ -12,7 +12,7 @@ public class User implements Parcelable{
     private int nbrGamesPlayed;
     private double ratioGameWon;
     private ArrayList<String> unitiesNames;//ce qu'on va charger avec la db
-    private ArrayList<Healable> unities;
+    private ArrayList<Unity> unities;
     private String password;
     User(String name, int nbrGamesWon, int nbrGamesPlayed, ArrayList<String>unitiesNames, String password){
         this.name=name;
@@ -82,7 +82,8 @@ public class User implements Parcelable{
     public User(String name, String password) {
         this.name = name;
         this.password=password;
-    }
+        this.nbrGamesPlayed=0;
+        this.ratioGameWon=0;}
 
     protected User(Parcel in) {
         name = in.readString();
@@ -127,7 +128,7 @@ public class User implements Parcelable{
         return unitiesNames;
     }
 
-    public ArrayList<Healable> getUnities() {
+    public ArrayList<Unity> getUnities() {
         return unities;
     }
 
@@ -164,7 +165,7 @@ public class User implements Parcelable{
         this.unitiesNames = unitiesNames;
     }
 
-    public void setUnities(ArrayList<Healable> unities) {
+    public void setUnities(ArrayList<Unity> unities) {
         this.unities = unities;
     }
 
