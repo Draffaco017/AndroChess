@@ -13,7 +13,29 @@ public class Melee extends Unity {
         spriteName="Melee.png";//a modifier avec le sprite final
         hasAttacked=false;
     }
-
+    Melee(String specialisation){
+        this();
+        if(specialisation=="Damage"){
+            this.setName(this.getName()+" Damage");
+            this.setAttack(this.getAttack()*2);
+            this.setHpMax(Math.round(this.getHpMax()/2));
+            this.setHpCurrent(this.getHpMax());
+        }
+        else if (specialisation=="Tank"){
+            this.setName(this.getName()+" Tank");
+            this.setHpMax(this.getHpMax()*2);
+            this.setHpCurrent(this.getHpMax());
+            this.setArmor(this.getArmor()*2);
+            this.setAttack(Math.round(this.getAttack()/2));
+        }
+        else if(specialisation=="Speed"){
+            this.setName(this.getName()+" Speed");
+            this.setHpMax(Math.round(this.getHpMax()/2));
+            this.setHpCurrent(this.getHpMax());
+            this.setMaxMovements(this.getMaxMovements()*2);
+            this.setAvailableMovements(this.getMaxMovements());
+        }
+    }
     @Override
     public boolean isWeak(Unity unity) {
         if(unity.getName().contains("Aircraft")){

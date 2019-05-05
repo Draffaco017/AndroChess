@@ -10,8 +10,8 @@ public class UserDB {
     private static final int VERSION = 1;
     private static final String NAME_BDD = "users.db";
     private static final String TABLE_USERS = "table_users";
-    private static final String COL_ID = "ID";
-    private static final int NUM_COL_ID = 0;
+    private static final String COL_PSWD = "PSWD";
+    private static final int NUM_COL_PSWD = 0;
     private static final String COL_NAME = "NAME";
     private static final int NUM_COL_NAME = 1;
     private static final String COl_WIN ="WIN";
@@ -38,8 +38,7 @@ public class UserDB {
     private static final int NUM_COL_UNIT9 = 12;
     private static final String COL_UNIT10 = "UNIT10";
     private static final int NUM_COL_UNIT10 = 13;
-    private static final String COL_PSWD = "PSWD";
-    private static final int NUM_COL_PSWD = 14;
+
 
     private SQLiteDatabase db;
     private UserBaseSQLite users;
@@ -68,46 +67,30 @@ public class UserDB {
         content.put(COl_WIN, user.getNbrGamesWon());
         content.put(COL_TOTGAMES, user.getNbrGamesPlayed());
         for(int i=1;i<11;i++){
-            String temp="COL_UNIT"+Integer.toString(i);
-            String temp2="UNIT"+Integer.toString(i);
+            String temp="COL_UNIT"+i;
+            String temp2="UNIT"+i;
             content.put(temp, temp2);
         }
         content.put(COL_PSWD, user.getPassword());
         return db.insert(TABLE_USERS, null, content);
     }
-    public int updateUser(int id, User user){
+    public int updateUser(String name, User user){
         ContentValues content = new ContentValues();
         content.put(COL_NAME, user.getName());
         content.put(COl_WIN, user.getNbrGamesWon());
         content.put(COL_TOTGAMES, user.getNbrGamesPlayed());
         for(int i=1;i<11;i++){
-            String temp="COL_UNIT"+Integer.toString(i);
-            String temp2="UNIT"+Integer.toString(i);
+            String temp="COL_UNIT"+i;
+            String temp2="UNIT"+i;
             content.put(temp, temp2);
         }
         content.put(COL_PSWD, user.getPassword());
-        return db.update(TABLE_USERS, content, COL_ID + " = "+id, null);
+        return db.update(TABLE_USERS, content, COL_NAME + " = "+name, null);
     }
-    public int removeUser(int id){return db.delete(TABLE_USERS, COL_ID+" = "+Integer.toString(id), null);}
+    public int removeUser(String name){return db.delete(TABLE_USERS, COL_NAME+" = "+name, null);}
 
-    public User selectUser(int id){
+    public User selectUser(String name){
         return null;
-    }
-    public User getUserMaxID(){
-        return null;
-    }
-    public ArrayList<User>getAllUsers(){
-        Cursor c = db.query(TABLE_USERS, new String[]{
-                COL_ID, COL_NAME, COL_PSWD, COL_TOTGAMES, COl_WIN, COL_UNIT1,
-                COL_UNIT2, COL_UNIT3, COL_UNIT4, COL_UNIT5, COL_UNIT6,
-                COL_UNIT7, COL_UNIT8, COL_UNIT9, COL_UNIT10},
-                null, null, null, null, COL_ID);
-        if(c.getCount()==0){
-            c.close();
-            return null;
-        }
-        return null;
-       // ArrayList<User> listUser = new ArrayList<~>();
     }
     public boolean checkLoginPswd(){
         return true;

@@ -29,16 +29,16 @@ public class User implements Parcelable{
         }
         this.password=password;
         this.unitiesNames=unitiesNames;
-        /*for(String unityName:this.unitiesNames){
+        for(String unityName:this.unitiesNames){
             if(unityName.contains("Aircraft")){
                 if(unityName.contains("Damage")){
-                    this.unities.add(new Damage(new Aircraft()));
+                    this.unities.add(new Aircraft("Damage"));
                 }
                 else if(unityName.contains("Speed")){
-                    this.unities.add(new Speed(new Aircraft()));
+                    this.unities.add(new Aircraft("Speed"));
                 }
                 else if(unityName.contains("Tank")){
-                    this.unities.add(new Tank(new Aircraft()));
+                    this.unities.add(new Aircraft("Tank"));
                 }
                 else{
                     this.unities.add(new Aircraft());
@@ -46,13 +46,13 @@ public class User implements Parcelable{
             }
             else if(unityName.contains("Melee")){
                 if(unityName.contains("Damage")){
-                    this.unities.add(new Damage(new Melee()));
+                    this.unities.add(new Melee("Damage"));
                 }
                 else if(unityName.contains("Speed")){
-                    this.unities.add(new Speed(new Melee()));
+                    this.unities.add(new Melee("Speed"));
                 }
                 else if(unityName.contains("Tank")){
-                    this.unities.add(new Tank(new Melee()));
+                    this.unities.add(new Melee("Tank"));
                 }
                 else{
                     this.unities.add(new Melee());
@@ -61,13 +61,13 @@ public class User implements Parcelable{
             }
             else if(unityName.contains("Shooter")){
                 if(unityName.contains("Damage")){
-                    this.unities.add(new Damage(new Shooter()));
+                    this.unities.add(new Shooter("Damage"));
                 }
                 else if(unityName.contains("Speed")){
-                    this.unities.add(new Speed(new Shooter()));
+                    this.unities.add(new Shooter("Speed"));
                 }
                 else if(unityName.contains("Tank")){
-                    this.unities.add(new Tank(new Shooter()));
+                    this.unities.add(new Shooter("Tank"));
                 }
                 else{
                     this.unities.add(new Shooter());
@@ -79,11 +79,12 @@ public class User implements Parcelable{
             else{
                 System.out.println("Problème critique !");
             }
-        }*/
+        }
     }
 
-    public User(String pseudo, String pass) {
-        name = pseudo;
+    public User(String name, String password) {
+        this.name = name;
+        this.password=password;
     }
 
     protected User(Parcel in) {
