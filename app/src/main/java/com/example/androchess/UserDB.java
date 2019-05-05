@@ -87,6 +87,20 @@ public class UserDB {
         content.put(COL_PSWD, user.getPassword());
         return db.update(TABLE_USERS, content, COL_NAME + " = "+name, null);
     }
+    public boolean checkIfUserMatchs(User user){
+        openForWrite();
+        String whereClause=COL_NAME+"='"+user.getName()+"' AND "+
+                COL_PSWD+"='"+user.getPassword()+"'";
+        Cursor cursor=db.query(TABLE_USERS, new String[]{COL_NAME, COL_PSWD} ,
+                whereClause, null, null, null, COL_NAME);
+        if(cursor!=null){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
     public int removeUser(String name){return db.delete(TABLE_USERS, COL_NAME+" = "+name, null);}
 
     public User selectUser(String name){

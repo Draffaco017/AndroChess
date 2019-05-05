@@ -18,9 +18,11 @@ import android.widget.Toast;
 import com.example.androchess.R;
 
 public class LoginFragment extends Fragment {
+    UserDB userDB;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userDB=new UserDB(getActivity());
     }
 
     @Override
@@ -51,8 +53,17 @@ public class LoginFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(),MenuActivity.class);
                 User user = new User(pseudo.getText().toString(), password.getText().toString());
-                intent.putExtra("user", user);
-                startActivity(intent);
+                //ici faut check si il est dans la db
+                //si oui et que match avec le password, alors avancer
+                //sinon donner une erreur
+                if(userDB.checkIfUserMatchs(user)==true){
+                    intent.putExtra("user", user);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getActivity(), "Not in database, please try again", Toast.LENGTH_LONG);
+                }
+
             }
         });
 

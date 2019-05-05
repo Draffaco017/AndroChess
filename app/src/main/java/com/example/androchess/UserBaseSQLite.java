@@ -22,8 +22,8 @@ public class UserBaseSQLite extends SQLiteOpenHelper {
     private static final String COL_UNIT9 = "UNIT9";
     private static final String COL_UNIT10 = "UNIT10";
     private static final String COL_PSWD = "PSWD";
-    private static final String CREATE_DB = "CREATE TABLE "+TABLE_USERS+" ("+
-            COL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+ COL_NAME+" TEXT NOT NULL, "+
+    private static final String CREATE_DB = "CREATE TABLE IF NOT EXISTS "+TABLE_USERS+" ("+COL_NAME+" " +
+            "TEXT PRIMARY KEY NOT NULL, "+
             COl_WIN+" INTEGER NOT NULL DEFAULT 0, "+COL_TOTGAMES+" INTEGER NOT NULL DEFAULT 0, "+
             COL_UNIT1+" TEXT NOT NULL, "+ COL_UNIT2+" TEXT NOT NULL, "+
             COL_UNIT3+" TEXT NOT NULL, "+ COL_UNIT4+" TEXT NOT NULL, "+

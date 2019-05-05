@@ -7,7 +7,6 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 public class User implements Parcelable{
-    private int id;
     private String name;
     private int nbrGamesWon;
     private int nbrGamesPlayed;
@@ -15,9 +14,9 @@ public class User implements Parcelable{
     private ArrayList<String> unitiesNames;//ce qu'on va charger avec la db
     private ArrayList<Healable> unities;
     private String password;
-    User(int id, String name, int nbrGamesWon, int nbrGamesPlayed, ArrayList<String>unitiesNames, String password){
-        this.id=id;
+    User(String name, int nbrGamesWon, int nbrGamesPlayed, ArrayList<String>unitiesNames, String password){
         this.name=name;
+        this.password=password;
         this.nbrGamesWon=nbrGamesWon;
         this.nbrGamesPlayed=nbrGamesPlayed;
         if(nbrGamesPlayed==0){
@@ -25,9 +24,7 @@ public class User implements Parcelable{
         }
         else{
             this.ratioGameWon=this.nbrGamesWon/this.nbrGamesPlayed*100;
-
         }
-        this.password=password;
         this.unitiesNames=unitiesNames;
         for(String unityName:this.unitiesNames){
             if(unityName.contains("Aircraft")){
@@ -88,7 +85,6 @@ public class User implements Parcelable{
     }
 
     protected User(Parcel in) {
-        id = in.readInt();
         name = in.readString();
         nbrGamesWon = in.readInt();
         nbrGamesPlayed = in.readInt();
@@ -107,10 +103,6 @@ public class User implements Parcelable{
             return new User[size];
         }
     };
-
-    public int getId() {
-        return id;
-    }
 
     public String getPassword() {
         return password;
@@ -146,9 +138,6 @@ public class User implements Parcelable{
         return unities.get(i);
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -190,7 +179,6 @@ public class User implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
         parcel.writeString(name);
         parcel.writeInt(nbrGamesWon);
         parcel.writeInt(nbrGamesPlayed);
