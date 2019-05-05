@@ -1,20 +1,26 @@
 package com.example.androchess;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class SignUpFragment extends Fragment {
-    static String string;
+    private static String string;
+    private UserDB userDB;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userDB=new UserDB(getActivity());
     }
 
     @Override
@@ -34,5 +40,35 @@ public class SignUpFragment extends Fragment {
         SignUpFragment mFrgment = new SignUpFragment();
         string = texte;
         return mFrgment;
+    }
+    void onClick(View view){
+        Button loginButton = (Button) view.findViewById(R.id.btn_login);
+        final EditText pseudo = (EditText) view.findViewById(R.id.input_pseudo);
+        final EditText password = (EditText) view.findViewById(R.id.input_password);
+        //TextView signUpLink = (TextView) view.findViewById(R.id.link_signup);
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(pseudo.getText().toString().isEmpty()||password.getText().toString().isEmpty()){
+                    Toast.makeText(getActivity(), "please insert both name and password", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Intent intent = new Intent(getActivity(), MenuActivity.class);
+                    User user = new User(pseudo.getText().toString(), password.getText().toString());
+                    //ici il faut créer le user et l'insert dans la DB avec une team par défaut
+                    //cependant si le pseudo choisi existe déjà dans la db, il faut ne pas l'ajouter et
+                    //rendre un message d'erreur!
+                    if(userDB.checkIfUserInDb(user)==true){
+                        Toast.makeText(getActivity(), "Already in db, please try to connect", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        intent.putExtra("user", user);
+                        Toast.makeText(getActivity(), "Inserted in db, switching activity", Toast.LENGTH_LONG).show();
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
     }
 }

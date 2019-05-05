@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.example.androchess.R;
 
 public class LoginFragment extends Fragment {
-    UserDB userDB;
+    private UserDB userDB;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,19 +51,24 @@ public class LoginFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),MenuActivity.class);
-                User user = new User(pseudo.getText().toString(), password.getText().toString());
-                //ici faut check si il est dans la db
-                //si oui et que match avec le password, alors avancer
-                //sinon donner une erreur
-                if(userDB.checkIfUserMatchs(user)==true){
-                    intent.putExtra("user", user);
-                    startActivity(intent);
+                if(pseudo.getText().toString().isEmpty()||password.getText().toString().isEmpty()){
+                    Toast.makeText(getActivity(), "please insert both name and password", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Toast.makeText(getActivity(), "Not in database, please try again", Toast.LENGTH_LONG);
+                    Intent intent = new Intent(getActivity(),MenuActivity.class);
+                    User user = new User(pseudo.getText().toString(), password.getText().toString());
+                    //ici faut check si il est dans la db
+                    //si oui et que match avec le password, alors avancer
+                    //sinon donner une erreur
+                    if(userDB.checkIfUserMatchs(user)==true){
+                        intent.putExtra("user", user);
+                        Toast.makeText(getActivity(), "In db, switching activity", Toast.LENGTH_LONG).show();
+                        startActivity(intent);
+                    }
+                    else{
+                        Toast.makeText(getActivity(), "Not in database, please create an account", Toast.LENGTH_LONG).show();
+                    }
                 }
-
             }
         });
 

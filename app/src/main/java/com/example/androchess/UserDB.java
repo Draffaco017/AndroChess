@@ -89,17 +89,23 @@ public class UserDB {
     }
     public boolean checkIfUserMatchs(User user){
         openForWrite();
-        String whereClause=COL_NAME+"='"+user.getName()+"' AND "+
-                COL_PSWD+"='"+user.getPassword()+"'";
-        Cursor cursor=db.query(TABLE_USERS, new String[]{COL_NAME, COL_PSWD} ,
-                whereClause, null, null, null, COL_NAME);
-        if(cursor!=null){
+        Cursor cursor=db.rawQuery("SELECT "+COL_NAME+", "+COL_PSWD+" FROM "+TABLE_USERS+" WHERE "+COL_NAME+"='"+user.getName()+"' AND "+COL_PSWD+"='"+user.getPassword()+"';", null);
+        if(cursor.getCount()>0){
             return true;
         }
         else{
             return false;
         }
-
+    }
+    public boolean checkIfUserInDb(User user){
+        openForRead();
+        Cursor cursor=db.rawQuery("SELECT "+COL_NAME+" FROM "+TABLE_USERS+" WHERE "+COL_NAME+"='"+user.getName()+"';", null);
+        if(cursor.getCount()>0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     public int removeUser(String name){return db.delete(TABLE_USERS, COL_NAME+" = "+name, null);}
 
