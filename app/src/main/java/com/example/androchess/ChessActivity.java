@@ -19,10 +19,12 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
     public Boolean AnythingSelected = false;
     public Coordinates lastPos = null ;
     public Coordinates clickedPosition = new Coordinates(0, 0);
-    public TextView game_over;
+    public Boolean gameOver=false;
     public TextView[][] DisplayBoard = new TextView[8][8];
     public TextView[][] DisplayBoardBackground = new TextView[8][8];
     public TextView messageBoard;
+    public TextView descriptionBoard;
+    public TextView descriptionMessage;
     public ArrayList<Position[][]> LastMoves = new ArrayList<>();
     public LinearLayout pawn_choices;
     public int numberOfMoves;
@@ -30,8 +32,9 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
     public boolean gameStart = false;
     public int step = 0;
     public String messageTexte;
-
     public TextView message;
+    public Boolean blueWin = false;
+    public Boolean redWin = false;
 
     //TODO dégager tout ça, au final on aura un array par team venant de la DB
 
@@ -247,6 +250,8 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
         DisplayBoardBackground[7][7] = (TextView) findViewById(R.id.R077);
         messageBoard = (TextView) findViewById(R.id.R100);
         messageBoard.setBackgroundResource(R.drawable.base_blue);
+        descriptionBoard = (TextView) findViewById(R.id.R200);
+        descriptionMessage = (TextView) findViewById(R.id.description);
         for(int g=0;g<8;g++){
             for(int h=0;h<8;h++){
                 if(Board[g][h].getUnity()==null){
@@ -591,11 +596,11 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
                 step++;
                 try {
                     messageTexte = "Blue team, place your " + blueTeam.get(step).getName();
-                    if(blueTeam.get(step).getName().contains("M"))
+                    if(blueTeam.get(step).getName().contains("Melee"))
                         messageBoard.setBackgroundResource(R.drawable.melee_blue);
-                    else if(blueTeam.get(step).getName().contains("h"))
+                    else if(blueTeam.get(step).getName().contains("Shooter"))
                         messageBoard.setBackgroundResource(R.drawable.tank_blue);
-                    else if(blueTeam.get(step).getName().contains("i"))
+                    else if(blueTeam.get(step).getName().contains("Aircraft"))
                         messageBoard.setBackgroundResource(R.drawable.aircraft_blue);
                 } catch (Exception e) {
                     messageTexte = "Red team, place your base";
@@ -613,11 +618,11 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
                 step++;
                 try {
                     messageTexte = "Red team, place your " + redTeam.get(step - blueTeam.size()).getName();
-                    if(redTeam.get(step-blueTeam.size()).getName().contains("M"))
+                    if(redTeam.get(step-blueTeam.size()).getName().contains("Melee"))
                         messageBoard.setBackgroundResource(R.drawable.melee_red);
-                    else if(redTeam.get(step-blueTeam.size()).getName().contains("h"))
+                    else if(redTeam.get(step-blueTeam.size()).getName().contains("Shooter"))
                         messageBoard.setBackgroundResource(R.drawable.tank_red);
-                    else if(redTeam.get(step-blueTeam.size()).getName().contains("i"))
+                    else if(redTeam.get(step-blueTeam.size()).getName().contains("Aircraft"))
                         messageBoard.setBackgroundResource(R.drawable.aircraft_red);
                 } catch (Exception e) {
                     messageTexte = "BLUE TURN";
@@ -662,8 +667,31 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
                 if (Board[clickedPosition.getX()][clickedPosition.getY()].getUnity() == null) {
                     return;
                 } else {
+                    Log.d("sfre", "onClick: "+Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getName());
+                    descriptionMessage.setText("name : "+Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getName()
+                            +"\natk : "+Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getAttack()
+                            +"\narmor : "+Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getArmor()
+                            +"\npv : "+Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getHpCurrent() + "/" + Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getHpMax());
+                    if(Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().isBlue()) {
+                        if(Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getName().contains("Base"))
+                            descriptionBoard.setBackgroundResource(R.drawable.base_blue);
+                        else if(Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getName().contains("Melee"))
+                            descriptionBoard.setBackgroundResource(R.drawable.melee_blue);
+                        else if(Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getName().contains("Aircraft"))
+                            descriptionBoard.setBackgroundResource(R.drawable.aircraft_blue);
+                        else if(Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getName().contains("Shooter"))
+                            descriptionBoard.setBackgroundResource(R.drawable.tank_blue);
+                    } else{
+                        if(Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getName().contains("Base"))
+                            descriptionBoard.setBackgroundResource(R.drawable.base_red);
+                        else if(Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getName().contains("Melee"))
+                            descriptionBoard.setBackgroundResource(R.drawable.melee_red);
+                        else if(Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getName().contains("Aircraft"))
+                            descriptionBoard.setBackgroundResource(R.drawable.aircraft_red);
+                        else if(Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getName().contains("Shooter"))
+                            descriptionBoard.setBackgroundResource(R.drawable.tank_red);
+                    }
                     if (Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().isBlue() != FirstPlayerTurn) {
-                        //isKingInDanger();
                         return;
                     } else {
                         listOfCoordinates.clear();
@@ -711,7 +739,16 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
                     saveBoard();
                     Board[lastPos.getX()][lastPos.getY()].getUnity().attackUnity(Board[clickedPosition.getX()][clickedPosition.getY()].getUnity());
                     if (!Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getIsAlive()) {
+                        if(Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getName().contains("Base") && Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().isBlue()) {
+                            redWin = true;
+                            endGame();
+                        }
+                        else if(Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getName().contains("Base")){
+                            blueWin = true;
+                            endGame();
+                        }
                         Board[clickedPosition.getX()][clickedPosition.getY()].setPiece(null);
+                        Log.d("shotTest", "onClick: cuic");
                     }
                     resetColorAtAllowedPosition(listOfCoordinates);
                     DisplayBoard[lastPos.getX()][lastPos.getY()].setBackgroundResource(0);
@@ -725,7 +762,7 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
 
-            //isKingInDanger();
+
             lastPos = new Coordinates(clickedPosition.getX(), clickedPosition.getY());
             setBoard();
         }
@@ -865,5 +902,9 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
         }else {
             DisplayBoardBackground[lastPos.getX()][lastPos.getY()].setBackgroundResource(R.color.colorBoardLight);
         }
+    }
+
+    private void endGame(){
+        //TODO quitter le jeu, et revenir au menu + incrémenter le score du joueur
     }
 }

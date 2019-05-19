@@ -97,7 +97,7 @@ public abstract class Unity implements Movable,Damageable, Healable{
         }
         this.hpCurrent-=damage;
         Log.d("shotTest", "getDamages: "+this.hpCurrent);
-        if(hpCurrent<0){
+        if(hpCurrent<=0){
             hpCurrent=0;//voir comment détruire l'unité à partir de cette condition
             isAlive = false;
         }
