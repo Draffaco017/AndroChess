@@ -40,11 +40,11 @@ public class UserBaseSQLite extends SQLiteOpenHelper {
                 COL_UNIT1+", "+COL_UNIT2+", "+COL_UNIT3+", "+
                 COL_UNIT4+", "+COL_UNIT5+", "+COL_UNIT6+", "+
                 COL_UNIT7+", "+COL_UNIT8+", "+COL_UNIT9+") VALUES ('"+
-                "invite"+"', '"+"Invité"+"', '"+
-                "0"+"', '"+"0"+
-                "', 'Aircraft Damage', 'Aircraft Tank', 'Aircraft Speed', "+
-                "'Shooter Damage', 'Shooter Tank', 'Shooter Speed', "+
-                "'Melee Damage', 'Melee Tank', 'Melee Speed');");
+                "invite"+"', '"+"invite"+"', '"+
+                "0"+"', '"+"0"+"', '"+
+                "Aircraft Damage"+"', '"+ "Aircraft Tank"+"', '"+"Aircraft Speed"+"', '"+
+                "Shooter Damage"+"', '"+"Shooter Tank"+"', '"+"Shooter Speed"+"', '"+
+                "Melee Damage"+"', '"+"Melee Tank"+"', '"+"Melee Speed"+"');");
     }
 
     @Override

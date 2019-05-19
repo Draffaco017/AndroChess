@@ -26,6 +26,7 @@ public class User implements Parcelable{
             this.ratioGameWon=this.nbrGamesWon/this.nbrGamesPlayed*100;
         }
         this.unitiesNames=unitiesNames;
+        /*
         for(String unityName:this.unitiesNames){
             if(unityName.contains("Aircraft")){
                 if(unityName.contains("Damage")){
@@ -76,7 +77,7 @@ public class User implements Parcelable{
             else{
                 System.out.println("Problème critique !");
             }
-        }
+        }*/
     }
 
     public User(String name, String password) {
@@ -85,12 +86,14 @@ public class User implements Parcelable{
         this.nbrGamesPlayed=0;
         this.ratioGameWon=0;}
 
-    protected User(Parcel in) {
+    public User(Parcel in) {
         name = in.readString();
         nbrGamesWon = in.readInt();
         nbrGamesPlayed = in.readInt();
         ratioGameWon = in.readDouble();
-        unitiesNames = in.createStringArrayList();
+        //unitiesNames = in.readArrayList(String.class.getClassLoader());
+        unitiesNames=in.createStringArrayList();
+        password = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -185,5 +188,9 @@ public class User implements Parcelable{
         parcel.writeInt(nbrGamesPlayed);
         parcel.writeDouble(ratioGameWon);
         parcel.writeStringList(unitiesNames);
+        parcel.writeString(password);
+    }
+    public String toString(){//served mainly for tests
+        return "Name : "+this.name+" Unit 1 : "+this.unitiesNames.get(0);
     }
 }

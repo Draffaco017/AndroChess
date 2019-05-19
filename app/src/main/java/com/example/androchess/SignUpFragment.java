@@ -63,11 +63,19 @@ public class SignUpFragment extends Fragment {
                         Toast.makeText(getActivity(), "Already in db, please try to connect", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        Intent intent = new Intent(getActivity(), MenuActivity.class);
-                        userDB.insertUser(user);
-                        intent.putExtra("user", user);
-                        Toast.makeText(getActivity(), "Inserted in db, switching activity", Toast.LENGTH_SHORT).show();
-                        startActivity(intent);
+                        try{
+                            Intent intent = new Intent(getActivity(), MenuActivity.class);
+                            userDB.insertUser(user);
+                            user=userDB.loadUser(user.getName());
+                            intent.putExtra("user", user);
+                            Toast.makeText(getActivity(), "Inserted in db, switching activity", Toast.LENGTH_SHORT).show();
+                            startActivity(intent);
+                        }
+                        catch (Exception e){
+                            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+                        }
+
+
                     }
                 }
             }

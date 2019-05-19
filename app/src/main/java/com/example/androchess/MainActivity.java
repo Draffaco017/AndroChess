@@ -5,12 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
-    UserDB userDB;
+    //UserDB userDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        userDB=new UserDB(this);
+        //userDB=new UserDB(this);
         addDynamicFragment();
     }
     private void addDynamicFragment() {

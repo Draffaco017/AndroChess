@@ -60,10 +60,19 @@ public class LoginFragment extends Fragment {
                     //si oui et que match avec le password, alors avancer
                     //sinon donner une erreur
                     if(userDB.checkIfUserMatchs(user)==true){
+
                         Intent intent = new Intent(getActivity(),MenuActivity.class);
-                        intent.putExtra("user", user);
-                        Toast.makeText(getActivity(), "In db, switching activity", Toast.LENGTH_SHORT).show();
-                        startActivity(intent);
+                        try{
+                            user=userDB.loadUser(user.getName());
+                            intent.putExtra("user", user);
+                            Toast.makeText(getActivity(), "In db, switching activity", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getActivity(), user.toString(), Toast.LENGTH_SHORT).show();
+                            startActivity(intent);
+                        }
+                        catch (Exception e){
+                            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+                        }
+
                     }
                     else{
                         Toast.makeText(getActivity(), "Not in database, please create an account", Toast.LENGTH_SHORT).show();

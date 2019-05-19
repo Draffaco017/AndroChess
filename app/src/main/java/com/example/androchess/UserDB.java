@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class UserDB {
     private static final int VERSION = 1;
@@ -60,18 +61,6 @@ public class UserDB {
     }
 
     public void insertUser(User user){
-        //old version, not working as intended
-        /*ContentValues content=new ContentValues();
-        content.put(COL_NAME, user.getName());
-        content.put(COl_WIN, user.getNbrGamesWon());
-        content.put(COL_TOTGAMES, user.getNbrGamesPlayed());
-        for(int i=1;i<11;i++){
-            String temp="COL_UNIT"+i;
-            String temp2="UNIT"+i;
-            content.put(temp, temp2);
-        }
-        content.put(COL_PSWD, user.getPassword());
-        return db.insert(TABLE_USERS, null, content);*/
         openForWrite();
         db.execSQL("INSERT INTO "+TABLE_USERS+" ("+COL_PSWD+", "+
                 COL_NAME+", "+COL_WIN+", "+COL_TOTGAMES+", "+
@@ -79,26 +68,37 @@ public class UserDB {
                 COL_UNIT4+", "+COL_UNIT5+", "+COL_UNIT6+", "+
                 COL_UNIT7+", "+COL_UNIT8+", "+COL_UNIT9+") VALUES ('"+
                 user.getName()+"', '"+user.getPassword()+"', '"+
-                user.getNbrGamesWon()+"', '"+user.getNbrGamesPlayed()+
+                user.getNbrGamesWon()+"', '"+user.getNbrGamesPlayed()+"', '"+
+                "Aircraft Damage"+"', '"+ "Aircraft Tank"+"', '"+"Aircraft Speed"+"', '"+
+                "Shooter Damage"+"', '"+"Shooter Tank"+"', '"+"Shooter Speed"+"', '"+
+                "Melee Damage"+"', '"+"Melee Tank"+"', '"+"Melee Speed"+"');");
+                //old
+                /*
                 "', 'Aircraft Damage', 'Aircraft Tank', 'Aircraft Speed', "+
                 "'Shooter Damage', 'Shooter Tank', 'Shooter Speed', "+
-                "'Melee Damage', 'Melee Tank', 'Melee Speed');");
+                "'Melee Damage', 'Melee Tank', 'Melee Speed');");*/
         close();
     }
-    public void updateUser(String name, User user){
-        /*ContentValues content = new ContentValues();
-        content.put(COL_NAME, user.getName());
-        content.put(COL_WIN, user.getNbrGamesWon());
-        content.put(COL_TOTGAMES, user.getNbrGamesPlayed());
-        for(int i=1;i<11;i++){
-            String temp="COL_UNIT"+i;
-            String temp2="UNIT"+i;
-            content.put(temp, temp2);
-        }
-        content.put(COL_PSWD, user.getPassword());
-        db.update(TABLE_USERS, content, COL_NAME + " = "+name, null);*/
-        //a implémenter par après
+    public void updateUser(User user){
+        openForWrite();
+        /*UPDATE table_name
+        SET column1 = value1, column2 = value2, ...
+        WHERE condition;
+
+        UPDATE Customers
+        SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
+        WHERE CustomerID = 1;*/
+        db.execSQL("UPDATE "+TABLE_USERS+" SET "+COL_UNIT1+" = '"+user.getUnityName(0)+"', "+
+                COL_UNIT2+" = '"+user.getUnityName(1)+"', "+
+                COL_UNIT3+" = '"+user.getUnityName(2)+"', "+
+                COL_UNIT4+" = '"+user.getUnityName(3)+"', "+
+                COL_UNIT5+" = '"+user.getUnityName(4)+"', "+
+                COL_UNIT6+" = '"+user.getUnityName(5)+"', "+
+                COL_UNIT7+" = '"+user.getUnityName(6)+"', "+
+                COL_UNIT8+" = '"+user.getUnityName(7)+"', "+
+                COL_UNIT9+" = '"+user.getUnityName(8)+"' WHERE "+COL_NAME+" = '"+user.getName()+"';");
     }
+
     public boolean checkIfUserMatchs(User user){
         openForRead();
         Cursor cursor=db.rawQuery("SELECT "+COL_NAME+", "+COL_PSWD+" FROM "+TABLE_USERS+" WHERE "+COL_NAME+"='"+user.getName()+"' AND "+COL_PSWD+"='"+user.getPassword()+"';", null);
@@ -123,9 +123,27 @@ public class UserDB {
             return false;
         }
     }
-    //public int removeUser(String name){return db.delete(TABLE_USERS, COL_NAME+" = "+name, null);}
-
-    /*public User selectUser(String name){
-        return null;
-    }*/
+    public User loadUser(String userName){
+        openForRead();
+        Cursor cursor=db.rawQuery("SELECT * FROM "+TABLE_USERS+" WHERE "+COL_NAME+"='"+userName+"';", null);
+        if(cursor.getCount()>0){
+            cursor.moveToFirst();
+            ArrayList<String>unitiesNames=new ArrayList<>();
+            unitiesNames.add(cursor.getString(NUM_COL_UNIT1));
+            unitiesNames.add(cursor.getString(NUM_COL_UNIT2));
+            unitiesNames.add(cursor.getString(NUM_COL_UNIT3));
+            unitiesNames.add(cursor.getString(NUM_COL_UNIT4));
+            unitiesNames.add(cursor.getString(NUM_COL_UNIT5));
+            unitiesNames.add(cursor.getString(NUM_COL_UNIT6));
+            unitiesNames.add(cursor.getString(NUM_COL_UNIT7));
+            unitiesNames.add(cursor.getString(NUM_COL_UNIT8));
+            unitiesNames.add(cursor.getString(NUM_COL_UNIT9));
+            User user= new User(cursor.getString(NUM_COL_NAME), cursor.getInt(NUM_COL_WIN), cursor.getInt(NUM_COL_TOTGAMES), unitiesNames, cursor.getString(NUM_COL_PSWD));
+            return user;
+        }
+        else{
+            close();
+            return null;
+        }
+    }
 }

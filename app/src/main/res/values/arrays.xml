@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="list_examples">
-        <item>Manger</item>
-        <item>Boire</item>
-        <item>Dormir</item>
-        <item>Bouger</item>
+        <item>Aircraft Damage</item>
+        <item>Aircraft Tank</item>
+        <item>Aircraft Speed</item>
+        <item>Shooter Damage</item>
+        <item>Shooter Tank</item>
+        <item>Shooter Speed</item>
+        <item>Melee Damage</item>
+        <item>Melee Tank</item>
+        <item>Melee Speed</item>
     </string-array>
     <string-array name="Planets">
         <item>Sun</item>
