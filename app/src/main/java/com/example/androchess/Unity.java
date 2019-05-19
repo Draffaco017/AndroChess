@@ -1,5 +1,9 @@
 package com.example.androchess;
 
+import android.util.Log;
+
+import java.util.ArrayList;
+
 public abstract class Unity implements Movable,Damageable, Healable{
     protected String name;
     protected int hpMax;
@@ -11,8 +15,14 @@ public abstract class Unity implements Movable,Damageable, Healable{
     protected int availableMovements;
     protected Coordinates position;
     protected String spriteName;
-    boolean hasAttacked;
+    protected boolean hasAttacked = false;
+    protected boolean blue;
+    protected boolean isAlive = true;
+    protected boolean hasMoved = false;
 
+    Unity(boolean blue){
+        this.blue = blue;
+    }
     //getter
     public String getName() {
         return name;
@@ -86,8 +96,10 @@ public abstract class Unity implements Movable,Damageable, Healable{
             damage=0;
         }
         this.hpCurrent-=damage;
+        Log.d("shotTest", "getDamages: "+this.hpCurrent);
         if(hpCurrent<0){
             hpCurrent=0;//voir comment détruire l'unité à partir de cette condition
+            isAlive = false;
         }
     }
     @Override
@@ -169,8 +181,59 @@ public abstract class Unity implements Movable,Damageable, Healable{
     public void resetHasAttacked(){
         this.setHasAttacked(false);
     }
+    public void resetHasMoved(){this.hasMoved=false;}
     public void reset(){
         this.resetAvailableMovements();
         this.resetHasAttacked();
+        this.resetHasMoved();
+    }
+    public boolean isBlue(){return blue;}
+
+    public ArrayList<Coordinates> AllowedMoves(Coordinates coordinates , Position[][] board){
+        ArrayList<Coordinates> allowedMoves = new ArrayList<>();
+        allowedMoves.clear();
+        Coordinates c;
+
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                if(coordinates.getDistanceTo(new Coordinates(i, j))<= maxMovements){
+                    c=new Coordinates(i , j);
+                    allowedMoves.add(c);
+                }
+            }
+        }
+        return allowedMoves;
+    }
+
+    public ArrayList<Coordinates> AllowedShoot(Coordinates coordinates , Position[][] board){
+        ArrayList<Coordinates> allowedShoot = new ArrayList<>();
+        allowedShoot.clear();
+        Coordinates c;
+
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                if(coordinates.getDistanceTo(new Coordinates(i, j))<= range){
+                    c=new Coordinates(i , j);
+                    allowedShoot.add(c);
+                }
+            }
+        }
+        return allowedShoot;
+    }
+
+    public boolean getIsAlive(){
+        return isAlive;
+    }
+
+    public boolean getHasAttacked(){
+        return hasAttacked;
+    }
+
+    public boolean getHasMoved(){
+        return hasMoved;
+    }
+
+    public void setHasMoved(){
+        hasMoved = true;
     }
 }

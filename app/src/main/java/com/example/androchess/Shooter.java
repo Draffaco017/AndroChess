@@ -1,7 +1,8 @@
 package com.example.androchess;
 
 public class Shooter extends Unity{
-    Shooter(){
+    Shooter(boolean blue){
+        super(blue);
         name="Shooter";
         hpMax=100;
         hpCurrent=hpMax;
@@ -14,8 +15,8 @@ public class Shooter extends Unity{
         spriteName="Shooter.png";//a modifier avec le sprite final
         hasAttacked=false;
     }
-    Shooter(String specialisation){
-        this();
+    Shooter(String specialisation, boolean blue){
+        this(blue);
         if(specialisation=="Damage"){
             this.setName(this.getName()+" Damage");
             this.setAttack(this.getAttack()*2);

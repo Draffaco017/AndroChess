@@ -29,49 +29,49 @@ public class User implements Parcelable{
         for(String unityName:this.unitiesNames){
             if(unityName.contains("Aircraft")){
                 if(unityName.contains("Damage")){
-                    this.unities.add(new Aircraft("Damage"));
+                    this.unities.add(new Aircraft("Damage", true));
                 }
                 else if(unityName.contains("Speed")){
-                    this.unities.add(new Aircraft("Speed"));
+                    this.unities.add(new Aircraft("Speed", true));
                 }
                 else if(unityName.contains("Tank")){
-                    this.unities.add(new Aircraft("Tank"));
+                    this.unities.add(new Aircraft("Tank", true));
                 }
                 else{
-                    this.unities.add(new Aircraft());
+                    this.unities.add(new Aircraft(true));
                 }
             }
             else if(unityName.contains("Melee")){
                 if(unityName.contains("Damage")){
-                    this.unities.add(new Melee("Damage"));
+                    this.unities.add(new Melee("Damage", true));
                 }
                 else if(unityName.contains("Speed")){
-                    this.unities.add(new Melee("Speed"));
+                    this.unities.add(new Melee("Speed", true));
                 }
                 else if(unityName.contains("Tank")){
-                    this.unities.add(new Melee("Tank"));
+                    this.unities.add(new Melee("Tank", true));
                 }
                 else{
-                    this.unities.add(new Melee());
+                    this.unities.add(new Melee( true));
                 }
 
             }
             else if(unityName.contains("Shooter")){
                 if(unityName.contains("Damage")){
-                    this.unities.add(new Shooter("Damage"));
+                    this.unities.add(new Shooter("Damage", true));
                 }
                 else if(unityName.contains("Speed")){
-                    this.unities.add(new Shooter("Speed"));
+                    this.unities.add(new Shooter("Speed", true));
                 }
                 else if(unityName.contains("Tank")){
-                    this.unities.add(new Shooter("Tank"));
+                    this.unities.add(new Shooter("Tank", true));
                 }
                 else{
-                    this.unities.add(new Shooter());
+                    this.unities.add(new Shooter(true));
                 }
             }
             else if(unityName.contains("Base")){
-                this.unities.add(new Base());
+                this.unities.add(new Base(true));
             }
             else{
                 System.out.println("Problème critique !");

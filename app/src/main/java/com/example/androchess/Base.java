@@ -2,7 +2,8 @@ package com.example.androchess;
 
 public class Base extends Unity implements Heal{
 
-    Base(){
+    Base(boolean blue){
+        super(blue);
         name="Base";
         hpMax=500;
         hpCurrent=hpMax;

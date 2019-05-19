@@ -1,7 +1,8 @@
 package com.example.androchess;
 public class Melee extends Unity {
-    Melee(){
-        name="Aircraft";
+    Melee(boolean blue){
+        super(blue);
+        name="Melee";
         hpMax=50;
         hpCurrent=hpMax;
         attack=50;
@@ -13,8 +14,8 @@ public class Melee extends Unity {
         spriteName="Melee.png";//a modifier avec le sprite final
         hasAttacked=false;
     }
-    Melee(String specialisation){
-        this();
+    Melee(String specialisation, boolean blue){
+        this(blue);
         if(specialisation=="Damage"){
             this.setName(this.getName()+" Damage");
             this.setAttack(this.getAttack()*2);

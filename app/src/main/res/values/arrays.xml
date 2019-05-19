@@ -17,5 +17,9 @@
         <item>Uranus</item>
         <item>Neptune</item>
     </string-array>
-
+    <string-array name="list_troupes">
+        <item>Shooter</item>
+        <item>Aircraft</item>
+        <item>Melee</item>
+    </string-array>
 </resources>

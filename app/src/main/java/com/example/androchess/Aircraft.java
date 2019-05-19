@@ -1,7 +1,8 @@
 package com.example.androchess;
 
 public class Aircraft extends Unity {
-    Aircraft(){
+    Aircraft(boolean blue){
+        super(blue);
         name="Aircraft";
         hpMax=25;
         hpCurrent=hpMax;
@@ -13,9 +14,10 @@ public class Aircraft extends Unity {
         position=new Coordinates(0,0);//faire un setPosition au drag and drop initial
         spriteName="Aircraft.png";//a modifier avec le sprite final
         hasAttacked=false;
+        this.blue=blue;
     }
-    Aircraft(String specialisation){
-        this();
+    Aircraft(String specialisation, boolean blue){
+        this(blue);
         if(specialisation=="Damage"){
             this.setName(this.getName()+" Damage");
             this.setAttack(this.getAttack()*2);
