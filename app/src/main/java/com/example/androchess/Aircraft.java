@@ -7,7 +7,7 @@ public class Aircraft extends Unity {
         hpMax=25;
         hpCurrent=hpMax;
         attack=50;
-        armor=25;
+        armor=20;
         range=2;
         maxMovements=2;
         availableMovements=maxMovements;

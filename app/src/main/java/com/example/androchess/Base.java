@@ -5,7 +5,7 @@ public class Base extends Unity implements Heal{
     Base(boolean blue){
         super(blue);
         name="Base";
-        hpMax=50;
+        hpMax=250;
         hpCurrent=hpMax;
         attack=50;//attack pour base : c'est le heal
         armor=25;

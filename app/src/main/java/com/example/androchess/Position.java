@@ -1,9 +1,5 @@
 package com.example.androchess;
 
-/**
- * Created by DIPANSH KHANDELWAL on 03-06-2017
- */
-
 public class Position {
     private Unity unity;
 

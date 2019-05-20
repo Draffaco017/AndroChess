@@ -41,18 +41,6 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
     User user1;
     User user2;
 
-    //TODO dégager tout ça, au final on aura un array par team venant de la DB
-
-    Unity base_blue;
-    Unity base_red;
-
-    Unity shooter_blue;
-    Unity aircraft_blue;
-    Unity melle_blue;
-
-    Unity shooter_red;
-    Unity aircraft_red;
-    Unity melle_red;
 
     Button button;
 
@@ -155,16 +143,6 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
         }
 
         message.setText("team blue, place your base");
-
-        /*Board[0][0].setPiece(base_blue);
-        Board[1][0].setPiece(shooter_blue);
-        Board[2][0].setPiece(aircraft_blue);
-        Board[3][0].setPiece(melle_blue);
-
-        Board[0][7].setPiece(base_red);
-        Board[1][7].setPiece(shooter_red);
-        Board[2][7].setPiece(aircraft_red);
-        Board[3][7].setPiece(melle_red);*/
 
 
         DisplayBoard[0][0] = (TextView) findViewById(R.id.R00);
@@ -712,7 +690,6 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
                         for (int i = 0; i < redTeam.size(); i++) {
                             redTeam.get(i).reset();
                         }
-                        //TODO mettre une variable isMoved dans Unity ansi qu'une fonction pour la reset. Bloquer le mvmnt une fois bouger, reset ICI
                     }
                 }
             });
@@ -958,7 +935,6 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void endGame(){
-        //TODO quitter le jeu, et revenir au menu + incrémenter le score du joueur
         userDB=new UserDB(this);
         //on update le score de chaque joueur
         //blue est joueur1

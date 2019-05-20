@@ -3,10 +3,10 @@ public class Melee extends Unity {
     Melee(boolean blue){
         super(blue);
         name="Melee";
-        hpMax=50;
+        hpMax=75;
         hpCurrent=hpMax;
         attack=50;
-        armor=50;
+        armor=10;
         range=1;
         maxMovements=4;
         availableMovements=maxMovements;

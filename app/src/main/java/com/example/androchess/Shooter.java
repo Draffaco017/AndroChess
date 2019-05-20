@@ -4,10 +4,10 @@ public class Shooter extends Unity{
     Shooter(boolean blue){
         super(blue);
         name="Shooter";
-        hpMax=100;
+        hpMax=50;
         hpCurrent=hpMax;
         attack=50;
-        armor=25;
+        armor=10;
         range=3;
         maxMovements=2;
         availableMovements=maxMovements;
