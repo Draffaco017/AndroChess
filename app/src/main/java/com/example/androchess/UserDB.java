@@ -67,7 +67,7 @@ public class UserDB {
                 COL_UNIT1+", "+COL_UNIT2+", "+COL_UNIT3+", "+
                 COL_UNIT4+", "+COL_UNIT5+", "+COL_UNIT6+", "+
                 COL_UNIT7+", "+COL_UNIT8+", "+COL_UNIT9+") VALUES ('"+
-                user.getName()+"', '"+user.getPassword()+"', '"+
+                user.getPassword()+"', '"+user.getName()+"', '"+
                 user.getNbrGamesWon()+"', '"+user.getNbrGamesPlayed()+"', '"+
                 "Aircraft Damage"+"', '"+ "Aircraft Tank"+"', '"+"Aircraft Speed"+"', '"+
                 "Shooter Damage"+"', '"+"Shooter Tank"+"', '"+"Shooter Speed"+"', '"+
