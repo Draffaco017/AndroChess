@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -676,9 +677,11 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
                         FirstPlayerTurn = !FirstPlayerTurn;
                         if(FirstPlayerTurn){
                             messageTexte = "BLUE TURN";
+                            Toast.makeText(getApplicationContext(), messageTexte, Toast.LENGTH_LONG).show();
                         }
                         else
                             messageTexte = "RED TURN";
+                        Toast.makeText(getApplicationContext(), messageTexte, Toast.LENGTH_LONG).show();
                         message.setText(messageTexte);
                         isMoved = false;
                     } else {
