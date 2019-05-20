@@ -1,12 +1,11 @@
 package com.example.androchess;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -39,6 +38,14 @@ public class MenuActivity extends AppCompatActivity {
                     +"\nUnit 8 : "+user.getUnityName(7)
                     +"\nUnit 9 : "+user.getUnityName(8));
         playButton = (Button) findViewById(R.id.btn_play);
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MenuActivity.this, ChessActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+            }
+        });
         //TODO faire le setOnClickListener pour passer au jeu
         makeTeamButton = (Button) findViewById(R.id.btn_makeTeam);
         makeTeamButton.setOnClickListener(new View.OnClickListener() {

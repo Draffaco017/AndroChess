@@ -36,6 +36,8 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
     public Boolean blueWin = false;
     public Boolean redWin = false;
 
+    User user;
+
     //TODO dégager tout ça, au final on aura un array par team venant de la DB
 
     Unity base_blue;
@@ -57,6 +59,7 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        user = getIntent().getParcelableExtra("user");
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -70,12 +73,36 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
     private void initializeBoard() {
         //TODO pareil ici ça dégagera !
         //TODO je pense que ce qu'il faut faire, c'est enregistrer les noms dans la DB, et créer les objets ICI afin de donner l'équipe
-        base_blue = new Base(true);
-        base_red = new Base(false);
 
-        shooter_blue = new Shooter(true);
-        aircraft_blue = new Aircraft(true);
-        melle_blue = new Melee(true);
+        ArrayList<String> userList = user.getUnitiesNames();
+        blueTeam.add(new Base(true));
+        for(int i=0; i<userList.size(); i++){
+            if(userList.get(i).contains("Melee")){
+                if(userList.get(i).contains("Damage"))
+                    blueTeam.add(new Melee("Damage", true));
+                else if(userList.get(i).contains("Tank"))
+                    blueTeam.add(new Melee("Tank", true));
+                else if(userList.get(i).contains("Speed"))
+                    blueTeam.add(new Melee("Speed", true));
+            }
+            else if(userList.get(i).contains("Aircraft")){
+                if(userList.get(i).contains("Damage"))
+                    blueTeam.add(new Aircraft("Damage", true));
+                else if(userList.get(i).contains("Tank"))
+                    blueTeam.add(new Aircraft("Tank", true));
+                else if(userList.get(i).contains("Speed"))
+                    blueTeam.add(new Aircraft("Speed", true));
+            }
+            else if(userList.get(i).contains("Shooter")){
+                if(userList.get(i).contains("Damage"))
+                    blueTeam.add(new Shooter("Damage", true));
+                else if(userList.get(i).contains("Tank"))
+                    blueTeam.add(new Shooter("Tank", true));
+                else if(userList.get(i).contains("Speed"))
+                    blueTeam.add(new Shooter("Speed", true));
+            }
+        }
+        base_red = new Base(false);
 
         shooter_red = new Shooter(false);
         aircraft_red = new Aircraft(false);
@@ -85,11 +112,6 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
         redTeam.add(aircraft_red);
         redTeam.add(shooter_red);
         redTeam.add(melle_red);
-
-        blueTeam.add(base_blue);
-        blueTeam.add(aircraft_blue);
-        blueTeam.add(shooter_blue);
-        blueTeam.add(melle_blue);
 
 
 
