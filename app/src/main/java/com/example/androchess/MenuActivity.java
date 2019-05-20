@@ -27,7 +27,7 @@ public class MenuActivity extends AppCompatActivity {
                         +"\nRatio of games won : "+user.getRatioGameWon());*/
         userInfo.setText("Player : "+user.getName()+"\nNumber of wins : "+user.getNbrGamesWon()
                     +"\nNumber of games played : "+user.getNbrGamesPlayed()
-                    +"\nRatio of games won : "+user.getRatioGameWon()
+                    +"\nRatio of games won : "+user.getRatioGameWon()+"%"
                     +"\nUnit 1 : "+user.getUnityName(0)
                     +"\nUnit 2 : "+user.getUnityName(1)
                     +"\nUnit 3 : "+user.getUnityName(2)
@@ -41,8 +41,11 @@ public class MenuActivity extends AppCompatActivity {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MenuActivity.this, ChessActivity.class);
+                /*Intent intent = new Intent(MenuActivity.this, ChessActivity.class);
                 intent.putExtra("user", user);
+                startActivity(intent);*/
+                Intent intent = new Intent(MenuActivity.this, SelectPlayerTwo.class);
+                intent.putExtra("user1", user);
                 startActivity(intent);
             }
         });

@@ -79,7 +79,7 @@ public class MakeTeamActivityv2 extends Activity {
             public void onClick(View v) {
                 if(myTeamList.size()==9){
                     user.setUnitiesNames(myTeamList);
-                    userDB.updateUser(user);
+                    userDB.updateTeamUser(user);
                     user=userDB.loadUser(user.getName());
                     Intent intent = new Intent(MakeTeamActivityv2.this,MenuActivity.class);
                     intent.putExtra("user", user);

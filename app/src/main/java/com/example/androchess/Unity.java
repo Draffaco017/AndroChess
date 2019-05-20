@@ -112,8 +112,9 @@ public abstract class Unity implements Movable,Damageable, Healable{
 
     //healable
     @Override
-    public void getHeal(Heal heal) {
-        heal.heal(this);
+    public void getHeal(int value) {
+        //heal.heal(this);
+        this.hpCurrent+=value;
         if(this.hpCurrent>=this.hpMax){
             hpCurrent=hpMax;
         }

@@ -26,6 +26,7 @@
         <activity android:name=".MenuActivity" />
         <activity android:name=".MakeTeamActivity" />
         <activity android:name=".MakeTeamActivityv2" />
+        <activity android:name=".SelectPlayerTwo" />
     </application>
 
 </manifest>

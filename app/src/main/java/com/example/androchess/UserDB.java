@@ -56,9 +56,9 @@ public class UserDB {
         db.close();
     }
 
-    public SQLiteDatabase getDB(){
+    /*public SQLiteDatabase getDB(){
         return db;
-    }
+    }*/
 
     public void insertUser(User user){
         openForWrite();
@@ -72,22 +72,10 @@ public class UserDB {
                 "Aircraft Damage"+"', '"+ "Aircraft Tank"+"', '"+"Aircraft Speed"+"', '"+
                 "Shooter Damage"+"', '"+"Shooter Tank"+"', '"+"Shooter Speed"+"', '"+
                 "Melee Damage"+"', '"+"Melee Tank"+"', '"+"Melee Speed"+"');");
-                //old
-                /*
-                "', 'Aircraft Damage', 'Aircraft Tank', 'Aircraft Speed', "+
-                "'Shooter Damage', 'Shooter Tank', 'Shooter Speed', "+
-                "'Melee Damage', 'Melee Tank', 'Melee Speed');");*/
         close();
     }
-    public void updateUser(User user){
+    public void updateTeamUser(User user){
         openForWrite();
-        /*UPDATE table_name
-        SET column1 = value1, column2 = value2, ...
-        WHERE condition;
-
-        UPDATE Customers
-        SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
-        WHERE CustomerID = 1;*/
         db.execSQL("UPDATE "+TABLE_USERS+" SET "+COL_UNIT1+" = '"+user.getUnityName(0)+"', "+
                 COL_UNIT2+" = '"+user.getUnityName(1)+"', "+
                 COL_UNIT3+" = '"+user.getUnityName(2)+"', "+
@@ -97,6 +85,14 @@ public class UserDB {
                 COL_UNIT7+" = '"+user.getUnityName(6)+"', "+
                 COL_UNIT8+" = '"+user.getUnityName(7)+"', "+
                 COL_UNIT9+" = '"+user.getUnityName(8)+"' WHERE "+COL_NAME+" = '"+user.getName()+"';");
+    }
+    public void updateScoreUser(User user, int hasWon){
+        openForWrite();
+        int numberOfGamesWon=user.getNbrGamesWon()+hasWon;
+        int totalOfWonGames=user.getNbrGamesPlayed()+1;
+        db.execSQL("UPDATE "+TABLE_USERS+" SET "+COL_WIN+" = '"+numberOfGamesWon+"', "+
+                COL_TOTGAMES+" = '"+totalOfWonGames+"' WHERE "+COL_NAME+" = '"+user.getName()+"';");
+
     }
 
     public boolean checkIfUserMatchs(User user){
@@ -143,6 +139,21 @@ public class UserDB {
         }
         else{
             close();
+            return null;
+        }
+    }
+
+    public ArrayList<String> getAllPlayerNames(){
+        openForRead();
+        ArrayList<String> toReturn= new ArrayList<>();
+        Cursor cursor=db.rawQuery("SELECT "+COL_NAME+" FROM "+TABLE_USERS+";", null);
+        if (cursor.getCount()>0){
+            while (cursor.moveToNext()){
+                toReturn.add(cursor.getString(0));
+            }
+            return toReturn;
+        }
+        else {
             return null;
         }
     }

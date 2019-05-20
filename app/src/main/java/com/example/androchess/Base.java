@@ -5,11 +5,11 @@ public class Base extends Unity implements Heal{
     Base(boolean blue){
         super(blue);
         name="Base";
-        hpMax=500;
+        hpMax=50;
         hpCurrent=hpMax;
         attack=50;//attack pour base : c'est le heal
         armor=25;
-        range=0;
+        range=2;
         maxMovements=0;
         availableMovements=maxMovements;
         position=new Coordinates(0,0);//faire un setPosition au drag and drop initial
@@ -28,7 +28,7 @@ public class Base extends Unity implements Heal{
     @Override
     public void heal(Unity unity) {
         if(this.isInAttackRange(unity)){
-            unity.getHeal(this);
+            unity.getHeal(this.getAttack());
             hasAttacked=true;
         }
     }

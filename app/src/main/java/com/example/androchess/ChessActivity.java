@@ -1,5 +1,6 @@
 package com.example.androchess;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -35,8 +36,10 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
     public TextView message;
     public Boolean blueWin = false;
     public Boolean redWin = false;
+    UserDB userDB;
 
-    User user;
+    User user1;
+    User user2;
 
     //TODO dégager tout ça, au final on aura un array par team venant de la DB
 
@@ -59,7 +62,8 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user = getIntent().getParcelableExtra("user");
+        user1 = getIntent().getParcelableExtra("user1");
+        user2 = getIntent().getParcelableExtra("user2");
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -74,35 +78,36 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
         //TODO pareil ici ça dégagera !
         //TODO je pense que ce qu'il faut faire, c'est enregistrer les noms dans la DB, et créer les objets ICI afin de donner l'équipe
 
-        ArrayList<String> userList = user.getUnitiesNames();
+        ArrayList<String> user1List = user1.getUnitiesNames();
+        ArrayList<String> user2List = user2.getUnitiesNames();
         blueTeam.add(new Base(true));
-        for(int i=0; i<userList.size(); i++){
-            if(userList.get(i).contains("Melee")){
-                if(userList.get(i).contains("Damage"))
+        for(int i=0; i<user1List.size(); i++){
+            if(user1List.get(i).contains("Melee")){
+                if(user1List.get(i).contains("Damage"))
                     blueTeam.add(new Melee("Damage", true));
-                else if(userList.get(i).contains("Tank"))
+                else if(user1List.get(i).contains("Tank"))
                     blueTeam.add(new Melee("Tank", true));
-                else if(userList.get(i).contains("Speed"))
+                else if(user1List.get(i).contains("Speed"))
                     blueTeam.add(new Melee("Speed", true));
             }
-            else if(userList.get(i).contains("Aircraft")){
-                if(userList.get(i).contains("Damage"))
+            else if(user1List.get(i).contains("Aircraft")){
+                if(user1List.get(i).contains("Damage"))
                     blueTeam.add(new Aircraft("Damage", true));
-                else if(userList.get(i).contains("Tank"))
+                else if(user1List.get(i).contains("Tank"))
                     blueTeam.add(new Aircraft("Tank", true));
-                else if(userList.get(i).contains("Speed"))
+                else if(user1List.get(i).contains("Speed"))
                     blueTeam.add(new Aircraft("Speed", true));
             }
-            else if(userList.get(i).contains("Shooter")){
-                if(userList.get(i).contains("Damage"))
+            else if(user1List.get(i).contains("Shooter")){
+                if(user1List.get(i).contains("Damage"))
                     blueTeam.add(new Shooter("Damage", true));
-                else if(userList.get(i).contains("Tank"))
+                else if(user1List.get(i).contains("Tank"))
                     blueTeam.add(new Shooter("Tank", true));
-                else if(userList.get(i).contains("Speed"))
+                else if(user1List.get(i).contains("Speed"))
                     blueTeam.add(new Shooter("Speed", true));
             }
         }
-        base_red = new Base(false);
+        /*base_red = new Base(false);
 
         shooter_red = new Shooter(false);
         aircraft_red = new Aircraft(false);
@@ -111,8 +116,35 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
         redTeam.add(base_red);
         redTeam.add(aircraft_red);
         redTeam.add(shooter_red);
-        redTeam.add(melle_red);
+        redTeam.add(melle_red);*/
 
+        redTeam.add(new Base(false));
+        for(int i=0; i<user1List.size(); i++){
+            if(user1List.get(i).contains("Melee")){
+                if(user1List.get(i).contains("Damage"))
+                    redTeam.add(new Melee("Damage", false));
+                else if(user1List.get(i).contains("Tank"))
+                    redTeam.add(new Melee("Tank", false));
+                else if(user1List.get(i).contains("Speed"))
+                    redTeam.add(new Melee("Speed", false));
+            }
+            else if(user1List.get(i).contains("Aircraft")){
+                if(user1List.get(i).contains("Damage"))
+                    redTeam.add(new Aircraft("Damage", false));
+                else if(user1List.get(i).contains("Tank"))
+                    redTeam.add(new Aircraft("Tank", false));
+                else if(user1List.get(i).contains("Speed"))
+                    redTeam.add(new Aircraft("Speed", false));
+            }
+            else if(user1List.get(i).contains("Shooter")){
+                if(user1List.get(i).contains("Damage"))
+                    redTeam.add(new Shooter("Damage", false));
+                else if(user1List.get(i).contains("Tank"))
+                    redTeam.add(new Shooter("Tank", false));
+                else if(user1List.get(i).contains("Speed"))
+                    redTeam.add(new Shooter("Speed", false));
+            }
+        }
 
 
         for (int i = 0; i < 8; i++) {
@@ -662,13 +694,13 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onClick(View view) {
                     if (isMoved) {
-                        button.setText("ShOOT");
+                        button.setText("SHOOT");
                         FirstPlayerTurn = !FirstPlayerTurn;
                         if(FirstPlayerTurn){
-                            messageTexte = "RED TURN";
+                            messageTexte = "BLUE TURN";
                         }
                         else
-                            messageTexte = "BLUE TURN";
+                            messageTexte = "RED TURN";
                         message.setText(messageTexte);
                         isMoved = false;
                     } else {
@@ -928,5 +960,23 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
 
     private void endGame(){
         //TODO quitter le jeu, et revenir au menu + incrémenter le score du joueur
+        userDB=new UserDB(this);
+        //on update le score de chaque joueur
+        //blue est joueur1
+        if(blueWin){
+            userDB.updateScoreUser(user1, 1);
+            userDB.updateScoreUser(user2, 0);
+        }
+        else{
+            userDB.updateScoreUser(user1, 0);
+            userDB.updateScoreUser(user2, 1);
+        }
+        //la les scores sont update dans la db, reste qu'à reload le joueur 1 et intent vers le menu principal
+        user1=userDB.loadUser(user1.getName());
+        Intent intent = new Intent(ChessActivity.this, MenuActivity.class);
+        intent.putExtra("user", user1);
+        startActivity(intent);
+
+
     }
 }

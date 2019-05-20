@@ -19,11 +19,11 @@ public class User implements Parcelable{
         this.password=password;
         this.nbrGamesWon=nbrGamesWon;
         this.nbrGamesPlayed=nbrGamesPlayed;
-        if(nbrGamesPlayed==0){
+        if(this.nbrGamesPlayed==0){
             this.ratioGameWon=0;
         }
         else{
-            this.ratioGameWon=this.nbrGamesWon/this.nbrGamesPlayed*100;
+            this.ratioGameWon=Math.round(Double.valueOf(this.nbrGamesWon)/Double.valueOf(this.nbrGamesPlayed)*100);
         }
         this.unitiesNames=unitiesNames;
         /*
