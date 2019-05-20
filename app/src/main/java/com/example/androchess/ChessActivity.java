@@ -721,7 +721,6 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
                 if (Board[clickedPosition.getX()][clickedPosition.getY()].getUnity() == null) {
                     return;
                 } else {
-                    Log.d("sfre", "onClick: "+Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getName());
                     descriptionMessage.setText("name : "+Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getName()
                             +"\natk : "+Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getAttack()
                             +"\narmor : "+Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getArmor()
@@ -788,8 +787,7 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
                 }
 
             } else {
-                if (shootIsAllowed(listOfCoordinates, clickedPosition)) {
-                    Log.d("shotTest", "onClick: ça marche poupée");
+                if (shootIsAllowed(listOfCoordinates, clickedPosition, Board[lastPos.getX()][lastPos.getY()].getUnity())) {
                     saveBoard();
                     Board[lastPos.getX()][lastPos.getY()].getUnity().attackUnity(Board[clickedPosition.getX()][clickedPosition.getY()].getUnity());
                     if (!Board[clickedPosition.getX()][clickedPosition.getY()].getUnity().getIsAlive()) {
@@ -918,12 +916,13 @@ public class ChessActivity extends AppCompatActivity implements View.OnClickList
         return Allowed;
     }
 
-    private boolean shootIsAllowed(ArrayList<Coordinates> piece, Coordinates coordinate) {
+    private boolean shootIsAllowed(ArrayList<Coordinates> piece, Coordinates coordinate, Unity unity) {
         Boolean Allowed = false;
         for(int i =0;i<piece.size();i++){
             if(piece.get(i).getX() == coordinate.getX()  &&  piece.get(i).getY() == coordinate.getY() && Board[coordinate.getX()][coordinate.getY()].getUnity() != null){
-                if((Board[coordinate.getX()][coordinate.getY()].getUnity().isBlue() && !FirstPlayerTurn) ||
-                        (!Board[coordinate.getX()][coordinate.getY()].getUnity().isBlue() && FirstPlayerTurn) ) {
+                if((unity.isBlue() != Board[coordinate.getX()][coordinate.getY()].getUnity().isBlue()) ||
+                        (unity.getName().contains("Base") && unity.isBlue() == Board[coordinate.getX()][coordinate.getY()].getUnity().isBlue())
+                                && !Board[coordinate.getX()][coordinate.getY()].getUnity().getName().contains("Base")) {
                     Allowed = true;
                     break;
                 }
