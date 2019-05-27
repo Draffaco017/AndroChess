@@ -83,6 +83,7 @@ public class MakeTeamActivityv2 extends Activity {
                     user=userDB.loadUser(user.getName());
                     Intent intent = new Intent(MakeTeamActivityv2.this,MenuActivity.class);
                     intent.putExtra("user", user);
+                    Toast.makeText(getApplicationContext(),"Save Successfull", Toast.LENGTH_LONG).show();
                     startActivity(intent);
                 }
                 else{
