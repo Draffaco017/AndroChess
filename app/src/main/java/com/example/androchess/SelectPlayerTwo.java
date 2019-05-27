@@ -61,24 +61,27 @@ public class SelectPlayerTwo extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Both Players have to be diferents! please select another player", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    user2 = new User(login.getText().toString(), password.getText().toString());
-                    if(userDB.checkIfUserMatchs(user2)==true){
+                    try {
+                        user2 = new User(login.getText().toString(), password.getText().toString());
+                        if (userDB.checkIfUserMatchs(user2) == true) {
 
-                        Intent intent = new Intent(SelectPlayerTwo.this,ChessActivity.class);
-                        try{
-                            user2=userDB.loadUser(user2.getName());
-                            intent.putExtra("user1", user1);
-                            intent.putExtra("user2", user2);
-                            Toast.makeText(getApplicationContext(), "Game is about to Start !", Toast.LENGTH_SHORT).show();
-                            startActivity(intent);
-                        }
-                        catch (Exception e){
-                            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
-                        }
+                            Intent intent = new Intent(SelectPlayerTwo.this, ChessActivity.class);
+                            try {
+                                user2 = userDB.loadUser(user2.getName());
+                                intent.putExtra("user1", user1);
+                                intent.putExtra("user2", user2);
+                                Toast.makeText(getApplicationContext(), "Game is about to Start !", Toast.LENGTH_SHORT).show();
+                                startActivity(intent);
+                            } catch (Exception e) {
+                                Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+                            }
 
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Wrong password !", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    else{
-                        Toast.makeText(getApplicationContext(), "Wrong password !", Toast.LENGTH_SHORT).show();
+                    catch (Exception e){
+                        Toast.makeText(getApplicationContext(), "Character ' or \" inserted, causing problems", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
