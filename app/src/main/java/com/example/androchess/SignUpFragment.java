@@ -55,27 +55,32 @@ public class SignUpFragment extends Fragment {
                     Toast.makeText(getActivity(), "please insert both name and password", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    User user = new User(pseudo.getText().toString(), password.getText().toString());
-                    //ici il faut créer le user et l'insert dans la DB avec une team par défaut
-                    //cependant si le pseudo choisi existe déjà dans la db, il faut ne pas l'ajouter et
-                    //rendre un message d'erreur!
-                    if(userDB.checkIfUserInDb(user)==true){
-                        Toast.makeText(getActivity(), "Already in db, please try to connect", Toast.LENGTH_SHORT).show();
+                    try{
+                        User user = new User(pseudo.getText().toString(), password.getText().toString());
+                        //ici il faut créer le user et l'insert dans la DB avec une team par défaut
+                        //cependant si le pseudo choisi existe déjà dans la db, il faut ne pas l'ajouter et
+                        //rendre un message d'erreur!
+                        if(userDB.checkIfUserInDb(user)==true){
+                            Toast.makeText(getActivity(), "Already in db, please try to connect", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            try{
+                                Intent intent = new Intent(getActivity(), MenuActivity.class);
+                                userDB.insertUser(user);
+                                user=userDB.loadUser(user.getName());
+                                intent.putExtra("user", user);
+                                Toast.makeText(getActivity(), "Inserted in db, switching activity", Toast.LENGTH_SHORT).show();
+                                startActivity(intent);
+                            }
+                            catch (Exception e){
+                                Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+                            }
+
+
+                        }
                     }
-                    else{
-                        try{
-                            Intent intent = new Intent(getActivity(), MenuActivity.class);
-                            userDB.insertUser(user);
-                            user=userDB.loadUser(user.getName());
-                            intent.putExtra("user", user);
-                            Toast.makeText(getActivity(), "Inserted in db, switching activity", Toast.LENGTH_SHORT).show();
-                            startActivity(intent);
-                        }
-                        catch (Exception e){
-                            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
-                        }
-
-
+                    catch (Exception e){
+                        Toast.makeText(getActivity(), "Character ' or \" inserted, causing problems", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

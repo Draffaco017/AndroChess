@@ -55,27 +55,30 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(getActivity(), "please insert both name and password", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    User user = new User(pseudo.getText().toString(), password.getText().toString());
-                    //ici faut check si il est dans la db
-                    //si oui et que match avec le password, alors avancer
-                    //sinon donner une erreur
-                    if(userDB.checkIfUserMatchs(user)==true){
+                    try {
+                        User user = new User(pseudo.getText().toString(), password.getText().toString());
+                        //ici faut check si il est dans la db
+                        //si oui et que match avec le password, alors avancer
+                        //sinon donner une erreur
+                        if (userDB.checkIfUserMatchs(user) == true) {
 
-                        Intent intent = new Intent(getActivity(),MenuActivity.class);
-                        try{
-                            user=userDB.loadUser(user.getName());
-                            intent.putExtra("user", user);
-                            Toast.makeText(getActivity(), "In db, switching activity", Toast.LENGTH_SHORT).show();
-                            //Toast.makeText(getActivity(), user.toString(), Toast.LENGTH_SHORT).show();
-                            startActivity(intent);
-                        }
-                        catch (Exception e){
-                            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
-                        }
+                            Intent intent = new Intent(getActivity(), MenuActivity.class);
+                            try {
+                                user = userDB.loadUser(user.getName());
+                                intent.putExtra("user", user);
+                                Toast.makeText(getActivity(), "In db, switching activity", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getActivity(), user.toString(), Toast.LENGTH_SHORT).show();
+                                startActivity(intent);
+                            } catch (Exception e) {
+                                Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+                            }
 
+                        } else {
+                            Toast.makeText(getActivity(), "Not in database, please create an account", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    else{
-                        Toast.makeText(getActivity(), "Not in database, please create an account", Toast.LENGTH_SHORT).show();
+                    catch (Exception e){
+                        Toast.makeText(getActivity(), "Character ' or \" inserted, causing problems", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
